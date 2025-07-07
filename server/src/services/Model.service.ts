@@ -26,8 +26,11 @@ export const trainModel = async (url: string) => {
 
 export const askQuestion = async (question: string) => {
     if (!trainedVectorStore) throw new Error("Model not trained yet")
-    const model = new ChatGoogleGenerativeAI({
-        model: "gemini-2.0-flash",
+    
+        console.log(process.env.GOOGLE_API_KEY)
+
+        const model = new ChatGoogleGenerativeAI({
+        model: "gemini-2.0-flash-001",
         temperature: 0,
         apiKey: process.env.GOOGLE_API_KEY,
     });

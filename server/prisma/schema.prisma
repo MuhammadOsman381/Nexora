@@ -48,8 +48,8 @@ model Message {
   id      Int    @id @default(autoincrement())
   chatId  Int
   userId  Int
-  content String
-  bot     Boolean
+  query    String
+  response String
   chat    Chat   @relation(fields: [chatId], references: [id])
   user    User   @relation(fields: [userId], references: [id])
 }

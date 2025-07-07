@@ -1,9 +1,12 @@
-import express, { Request, Response } from 'express';
-import { handleAsk, handleTrain } from '../controller/Agent.controller';
+import express from 'express';
+import { getChatByID, handleAsk, handleTrain } from '../controller/Agent.controller';
+import { isUserExist } from '../middleware/Auth.middleware';
 
 const modelRouter = express.Router();
 
-modelRouter.post('/train', handleTrain);
-modelRouter.post('/ask', handleAsk);
+modelRouter.post('/train', isUserExist, handleTrain);
+modelRouter.post('/ask/:chatId', isUserExist, handleAsk);
+modelRouter.get('/get/:chatId', getChatByID);
+
 
 export default modelRouter;

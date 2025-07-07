@@ -16,10 +16,6 @@ const useGetAndDelete = (method: ApiMethod) => {
 
         if (auth) {
             headers = fileHeaders
-                ? { "Content-Type": "multipart/form-data" }
-                : { "Content-Type": "application/json" };
-        } else {
-            headers = fileHeaders
                 ? {
                     "Content-Type": "multipart/form-data",
                     token: `${localStorage.getItem("token")}`,
@@ -28,6 +24,10 @@ const useGetAndDelete = (method: ApiMethod) => {
                     "Content-Type": "application/json",
                     token: `${localStorage.getItem("token")}`,
                 };
+        } else {
+            headers = fileHeaders
+                ? { "Content-Type": "multipart/form-data" }
+                : { "Content-Type": "application/json" };
         }
         try {
             const res = await method(url, { headers });

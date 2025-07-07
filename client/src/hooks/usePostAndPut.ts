@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Helpers from "@/config/Helpers";
-// import toast from "react-hot-toast";
+import { toast } from "sonner"
 
 type ApiMethod = (url: string, data: any, config: { headers: any }) => Promise<any>;
 
@@ -44,12 +44,12 @@ const usePostAndPut = (method: ApiMethod) => {
             const res = await method(url, data, { headers });
             setResponse(res);
             setError(null)
-            // showMessage && toast.success(res.data.message)
+            showMessage && toast.success(res.data.message)
             return res
         } catch (err: any) {
             setResponse(null);
             setError(err);
-            // showMessage && toast.error(err.response.data.message)
+            showMessage && toast.error(err.response.data.message)
             return err
         } finally {
             setLoading(false);
