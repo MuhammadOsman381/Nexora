@@ -1,0 +1,7 @@
+.list-disc {
+  list-style: none;
+}
+
+.list-disc li:before {
+  content: '✓ ';
+}

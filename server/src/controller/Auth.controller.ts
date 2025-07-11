@@ -27,6 +27,7 @@ export const signup = async (req: Request, res: Response) => {
                     name,
                     email,
                     password: hashedPassword,
+                    userType: 'USER'
                 },
             },
         });
@@ -70,3 +71,63 @@ export const signin = async (req: Request, res: Response) => {
         sendResponse(res, 500, "Internal server error", error);
     }
 };
+
+export const createAdmin = async (req: Request, res: Response) => {
+    try {
+        const email = "admin@gmail.com";
+        const existingAdmin = await queryHandler({
+            model: "user",
+            action: "findUnique",
+            args: {
+                where: { email },
+            },
+        });
+        if (existingAdmin) {
+            sendResponse(res, 400, "Admin already exists", null);
+            return;
+        }
+        const hashedPassword = await bcrypt.hash("123456", 10);
+        const newAdmin = await queryHandler({
+            model: "user",
+            action: "create",
+            args: {
+                data: {
+                    name: "admin",
+                    email: "admin@gmail.com",
+                    password: hashedPassword,
+                    userType: "ADMIN",
+                },
+            },
+        });
+        sendResponse(res, 201, "Admin created successfully", { admin: newAdmin });
+    } catch (error) {
+        console.error("Error creating admin:", error);
+        sendResponse(res, 500, "Internal server error", error);
+    }
+};
+
+export const getUsers = async (req: Request, res: Response) => {
+    try {
+        const users = await queryHandler({
+            model: 'user',
+            action: 'findMany',
+            args: {
+                include: {
+                    plans: {
+                        include: {
+                            pricingPlan: true
+                        }
+                    }
+                }
+            }
+        });
+        const filteredUsers = users.filter((user: { name: string }) => user.name !== 'admin');
+        sendResponse(res, 200, "Users fetched successfully", { users: filteredUsers });
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        sendResponse(res, 500, "Internal server error", error);
+    }
+};
+
+
+

@@ -5,18 +5,20 @@ import UserLayout from './pages/UserLayout.tsx'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import RouteProtector from './config/RouteProtector.tsx'
 import LoginPage from './pages/LoginPage.tsx'
-import HomePage from './pages/HomePage.tsx'
-import HistoryPage from './pages/HistoryPage.tsx'
-import PricingPlansPage from './pages/PricingPlansPage.tsx'
+import HomePage from './pages/user/HomePage.tsx'
+import HistoryPage from './pages/user/HistoryPage.tsx'
+import PricingPlansPage from './pages/user/PricingPlansPage.tsx'
 import SignUpPage from './pages/SignupPage.tsx'
 import { Toaster } from "@/components/ui/sonner"
-import ChatInterfacePage from './pages/ChatInterfacePage.tsx'
+import ChatInterfacePage from './pages/user/ChatInterfacePage.tsx'
+import AdminHome from './pages/admin/AdminHome.tsx'
+import AdminPricingPlan from './pages/admin/AdminPricingPlan.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Toaster
       position="top-right"
-      richColor
+      richColors
       duration={4000}
       closeButton
       visibleToasts={5}
@@ -29,30 +31,47 @@ createRoot(document.getElementById('root')!).render(
     />
     <BrowserRouter>
       <Routes>
+        <Route
+          path="/"
+          element={
+            <RouteProtector isAuthenticate={false}>
+              <LoginPage />
+            </RouteProtector>
+          }
+        />
+        <Route
+          path="/sign-up"
+          element={
+            <RouteProtector isAuthenticate={false}>
+              <SignUpPage />
+            </RouteProtector>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <RouteProtector isAuthenticate={true} allowedRole="ADMIN">
+              <UserLayout />
+            </RouteProtector>
+          }
+        >
+          <Route index element={<AdminHome />} />
+          <Route path="pricing-plan" element={<AdminPricingPlan />} />
 
-        <Route path="/" element={
-          <RouteProtector isAuthenticate={false} >
-            <LoginPage />
-          </RouteProtector>
-        } />
-
-        <Route path="/sign-up" element={
-          <RouteProtector isAuthenticate={false} >
-            <SignUpPage />
-          </RouteProtector  >
-        } />
-
-        <Route path="/user" element={
-          <RouteProtector isAuthenticate={true}>
-            <UserLayout />
-          </RouteProtector>
-        }>
+        </Route>
+        <Route
+          path="/user"
+          element={
+            <RouteProtector isAuthenticate={true} allowedRole="USER">
+              <UserLayout />
+            </RouteProtector>
+          }
+        >
           <Route index element={<HomePage />} />
           <Route path="history" element={<HistoryPage />} />
-          <Route path="chat/:chatId"  element={<ChatInterfacePage />} />
+          <Route path="chat/:chatId" element={<ChatInterfacePage />} />
           <Route path="pricing-plan" element={<PricingPlansPage />} />
         </Route>
-
       </Routes>
     </BrowserRouter>
   </StrictMode>

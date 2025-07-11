@@ -8,6 +8,8 @@ import usePostAndPut from "@/hooks/usePostAndPut"
 import axios from "axios"
 import { useState } from "react"
 import SpinnerLoader from "./SpinnerLoader"
+import Helpers from "@/config/Helpers"
+import * as CryptoJS from 'crypto-js';
 
 interface User {
   email: string;
@@ -39,10 +41,11 @@ export function LoginForm({
     const res = await post.callApi("auth/signin", userData, false, false, true);
     if (res) {
       localStorage.setItem("token", res.data.data.token)
-      navigate("/user");
+      const encryptedType = CryptoJS.AES.encrypt(res.data.data.user.userType, Helpers.secretKey).toString();
+      localStorage.setItem("userType", encryptedType);
+      navigate(`/${res.data.data.user.userType.toLowerCase()}`);
     }
   };
-
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>

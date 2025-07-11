@@ -26,14 +26,17 @@ export default function HomePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const response = await post.callApi('model/train', formData, true, false, true);
-    navigate(`/user/chat/${response?.data?.data?.chat?.id}`);
+    const response = await post.callApi('model/create-chat', formData, true, false, true);
+    if (response.data.data.chat.id !== null) {
+      navigate(`/user/chat/${response?.data?.data?.chat?.id}`);
+      return
+    }
   }
 
   return (
-    <Card className=" mx-auto  shadow-none rounded-2xl border-gray-300 ">
+    <Card className=" mx-auto max-w-7xl  shadow-none rounded-2xl border-gray-300 ">
       <CardHeader>
-        <CardTitle className="text-xl">Start chatting with AI</CardTitle>
+        <CardTitle className="text-xl">Chat with AI</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">

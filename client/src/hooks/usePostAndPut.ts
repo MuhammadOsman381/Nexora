@@ -18,9 +18,6 @@ const usePostAndPut = (method: ApiMethod) => {
     ) => {
         setLoading(true);
         setError(null);
-
-        console.log(data)
-
         const url = `${Helpers.apiUrl}${path}`;
         let headers;
 
@@ -49,7 +46,7 @@ const usePostAndPut = (method: ApiMethod) => {
         } catch (err: any) {
             setResponse(null);
             setError(err);
-            showMessage && toast.error(err.response.data.message)
+            toast.error(err.response.data.message)
             return err
         } finally {
             setLoading(false);

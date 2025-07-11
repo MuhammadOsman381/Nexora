@@ -12,6 +12,7 @@ import {
   SidebarContent,
   SidebarFooter,
 } from "@/components/ui/sidebar"
+import { useLocation } from "react-router-dom"
 
 const data = {
   user: {
@@ -19,7 +20,7 @@ const data = {
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
-  navMain: [
+  userRoutes: [
     {
       title: "Home",
       url: "/user",
@@ -47,14 +48,36 @@ const data = {
     },
   ],
 
+  adminRoutes: [
+    {
+      title: "Home",
+      url: "/admin",
+      icon: HomeIcon,
+      isActive: true,
+      items: [
+
+      ],
+    },
+    {
+      title: "Pricing Plan",
+      url: "/admin/pricing-plan",
+      icon: ListChecks,
+      isActive: true,
+      items: [
+
+      ],
+    },
+  ],
+
 
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const location = useLocation();
   return (
     <Sidebar className="border-r border-gray-300" variant="inset" {...props}>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={location.pathname.startsWith('/user') ? data.userRoutes : data.adminRoutes} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Helpers from "@/config/Helpers";
+import type { AxiosError } from "axios";
+import { toast } from "sonner";
 
 type ApiMethod = (url: string, config: { headers: any }) => Promise<any>;
 
@@ -32,11 +34,11 @@ const useGetAndDelete = (method: ApiMethod) => {
         try {
             const res = await method(url, { headers });
             const data = res?.data;
-            console.log(data)
             setResponse(data);
             setError(null);
             return data;
-        } catch (err) {
+        } catch (err: any) {
+            toast.error(err.response.data.message)
             setResponse(null);
             setError(err);
             return err;
