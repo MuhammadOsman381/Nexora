@@ -13,14 +13,15 @@ enum UserType {
 }
 
 model User {
-  id       Int        @id @default(autoincrement())
-  name     String     @unique
-  email    String     @unique
-  password String
-  userType UserType
-  plans    UserPlan[]
-  chats    Chat[]
-  messages Message[]
+  id               Int        @id @default(autoincrement())
+  name             String     @unique
+  email            String     @unique
+  password         String
+  stripeCustomerId String?
+  userType         UserType
+  plans            UserPlan[]
+  chats            Chat[]
+  messages         Message[]
 }
 
 model Chat {
@@ -40,18 +41,20 @@ enum PlanStatus {
 }
 
 model UserPlan {
-  id                 Int         @id @default(autoincrement())
-  userId             Int
-  pricingPlanId      Int
-  status             PlanStatus
-  totalNumberOfChats Int
-  totalNumberOfMsgs  Int
-  startDate          DateTime    @default(now())
-  endDate            DateTime
-  createdAt          DateTime    @default(now())
-  updatedAt          DateTime    @updatedAt
-  user               User        @relation(fields: [userId], references: [id])
-  pricingPlan        PricingPlan @relation(fields: [pricingPlanId], references: [id])
+  id                    Int         @id @default(autoincrement())
+  userId                Int
+  pricingPlanId         Int
+  status                PlanStatus
+  totalNumberOfChats    Int
+  totalNumberOfMsgs     Int
+  stripeSubscriptionId  String?
+  stripePaymentIntentId String?
+  startDate             DateTime    @default(now())
+  endDate               DateTime
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+  user                  User        @relation(fields: [userId], references: [id])
+  pricingPlan           PricingPlan @relation(fields: [pricingPlanId], references: [id])
 
   @@unique([userId, pricingPlanId])
 }
@@ -62,6 +65,7 @@ model PricingPlan {
   price           Float
   numberOfChats   Int
   messagesPerChat Int
+  stripePriceId   String?
   features        String[]
   userPlans       UserPlan[]
 }

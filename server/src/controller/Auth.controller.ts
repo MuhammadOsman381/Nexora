@@ -129,5 +129,14 @@ export const getUsers = async (req: Request, res: Response) => {
     }
 };
 
+export const user = async (req: Request, res: Response) => {
+    try {
+        const userData = (req as any).user;
+        sendResponse(res, 200, "User fetched successfully", { user: userData });
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        sendResponse(res, 500, "Internal server error", error);
+    }
+};
 
 

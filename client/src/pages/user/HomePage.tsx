@@ -34,7 +34,7 @@ export default function HomePage() {
   }
 
   return (
-    <Card className=" mx-auto max-w-7xl  shadow-none rounded-2xl border-gray-300 ">
+    <Card className=" mx-auto   shadow-none rounded-md border-gray-300 ">
       <CardHeader>
         <CardTitle className="text-xl">Chat with AI</CardTitle>
       </CardHeader>

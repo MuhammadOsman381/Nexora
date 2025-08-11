@@ -61,7 +61,7 @@ const ChatInterfacePage = () => {
             {
                 trainModel.loading  ?
                     <PageLoader /> :
-                    <div className="max-w-7xl flex flex-col h-[88vh] border border-gray-300 p-4 rounded-xl mx-auto">
+                    <div className="max-w-7xl flex flex-col h-[88vh] border border-gray-300 p-4 rounded-md mx-auto">
                         <ScrollArea className="flex-1 overflow-y-auto   rounded-lg p-4   ">
                             <div className="space-y-3">
                                 {messages.map((msg, index) => (
@@ -86,7 +86,7 @@ const ChatInterfacePage = () => {
                             </div>
                         </ScrollArea>
 
-                        <div className="flex gap-2 border px-3 py-2 rounded-lg bg-white border-gray-300">
+                        <div className="flex items-center justify-center gap-2 border p-2 rounded-md bg-white border-gray-300">
                             <input
                                 type="text"
                                 value={input}

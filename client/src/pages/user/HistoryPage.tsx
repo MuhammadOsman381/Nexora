@@ -48,14 +48,14 @@ const HistoryPage = () => {
           <PageLoader />
         ) : (
           message == '' &&
-          <div className="w-full max-w-7xl flex flex-col mx-auto">
+          <div className="w-full  flex flex-col mx-auto">
             {
               chats.map(chat => (
                 <Card
                   key={chat.id}
-                  className="border-gray-300 mb-2 shadow-none rounded-xl"
+                  className="border-gray-300 mb-2 p-4 shadow-none rounded-md"
                 >
-                  <div className="flex justify-between items-center px-5 ">
+                  <div className="flex justify-between items-center  ">
                     <Link to={`/user/chat/${chat.id}`} className="flex-1">
                       <CardTitle className="text-lg">{chat.title}</CardTitle>
                       <a

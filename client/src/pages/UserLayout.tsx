@@ -10,7 +10,11 @@ const UserLayout = () => {
             <AppSidebar />
             <div className="w-full" >
                 <NavBar />
-                <App />
+                <div className=" w-full flex justify-center" >
+                    <div className="lg:w-[70vw] " >
+                        <App />
+                    </div>
+                </div>
             </div>
         </SidebarProvider>
     )

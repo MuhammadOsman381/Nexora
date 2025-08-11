@@ -75,7 +75,7 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation();
   return (
-    <Sidebar className="border-r border-gray-300" variant="inset" {...props}>
+    <Sidebar className="border-r   border-gray-300" variant="inset" {...props}>
       <SidebarContent>
         <NavMain items={location.pathname.startsWith('/user') ? data.userRoutes : data.adminRoutes} />
       </SidebarContent>
