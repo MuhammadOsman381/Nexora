@@ -14,39 +14,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.askQuestion = exports.trainModel = void 0;
 const puppeteer_1 = __importDefault(require("puppeteer"));
-const text_splitter_1 = require("langchain/text_splitter");
-const google_genai_1 = require("@langchain/google-genai");
-const memory_1 = require("langchain/vectorstores/memory");
-const chains_1 = require("langchain/chains");
-let trainedVectorStore = null;
+const textsplitters_1 = require("@langchain/textsplitters");
+const groq_1 = require("@langchain/groq");
+const messages_1 = require("@langchain/core/messages");
+let pageContent = null;
+const llm = new groq_1.ChatGroq({
+    apiKey: process.env.GROQ_API_KEY,
+    model: "meta-llama/llama-4-maverick-17b-128e-instruct",
+    temperature: 0.4
+});
 const trainModel = (url) => __awaiter(void 0, void 0, void 0, function* () {
     const browser = yield puppeteer_1.default.launch({ headless: true });
     const page = yield browser.newPage();
-    yield page.goto(url, { waitUntil: 'networkidle2', timeout: 0 });
+    yield page.goto(url, { waitUntil: "networkidle2", timeout: 0 });
     const rawText = yield page.evaluate(() => document.body.innerText);
     yield browser.close();
-    const splitter = new text_splitter_1.RecursiveCharacterTextSplitter({
+    const splitter = new textsplitters_1.RecursiveCharacterTextSplitter({
         chunkSize: 16000,
         chunkOverlap: 50,
     });
     const docs = yield splitter.createDocuments([rawText]);
-    const embeddings = new google_genai_1.GoogleGenerativeAIEmbeddings({
-        model: 'embedding-001',
-        apiKey: process.env.GOOGLE_API_KEY,
-    });
-    trainedVectorStore = yield memory_1.MemoryVectorStore.fromDocuments(docs, embeddings);
+    pageContent = docs.map(doc => doc.pageContent).join("\n");
 });
 exports.trainModel = trainModel;
 const askQuestion = (question) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!trainedVectorStore)
+    if (!pageContent)
         throw new Error("Model not trained yet");
-    const model = new google_genai_1.ChatGoogleGenerativeAI({
-        model: "gemini-2.0-flash-001",
-        temperature: 0,
-        apiKey: process.env.GOOGLE_API_KEY,
-    });
-    const chain = chains_1.RetrievalQAChain.fromLLM(model, trainedVectorStore.asRetriever());
-    const result = yield chain.call({ query: question });
-    return result.text;
+    const chatMesages = [
+        new messages_1.SystemMessage(`You are a helpful AI assistant.
+        Use the following context to answer the question.`),
+        new messages_1.HumanMessage(`Context:\n${pageContent}\n\nQuestion:\n${question}`),
+    ];
+    const response = yield llm.invoke(chatMesages);
+    return response.content;
 });
 exports.askQuestion = askQuestion;

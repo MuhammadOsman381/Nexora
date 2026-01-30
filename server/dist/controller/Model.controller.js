@@ -116,7 +116,8 @@ const handleAsk = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 },
             },
         });
-        res.json({ answer });
+        console.log("Answer:", answer);
+        res.json({ answer: answer, });
     }
     catch (error) {
         console.error("QA Error:", error);
