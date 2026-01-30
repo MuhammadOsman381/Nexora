@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { Input } from "./ui/input";
 import useGetAndDelete from "@/hooks/useGetAndDelete";
 import usePostAndPut from "@/hooks/usePostAndPut";
@@ -13,7 +12,6 @@ import SpinnerLoader from "./SpinnerLoader";
 const CheckoutForm = ({ selectedPlan, setShowCheckOutSection }: any) => {
     const stripe = useStripe();
     const elements = useElements();
-    const navigate = useNavigate();
     const get = useGetAndDelete(axios.get);
     const post = usePostAndPut(axios.post);
 
