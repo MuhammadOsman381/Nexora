@@ -12,11 +12,21 @@ const cors_1 = __importDefault(require("cors"));
 const Chat_router_1 = __importDefault(require("./router/Chat.router"));
 const PricingPlan_router_1 = __importDefault(require("./router/PricingPlan.router"));
 const app = (0, express_1.default)();
-const PORT = process.env.PORT || 5000;
 const allowedOrigins = [
-    'http://localhost:5173',
+    "http://localhost:5173",
+    "https://nexora-seven-rosy.vercel.app"
 ];
-app.use((0, cors_1.default)({ origin: allowedOrigins }));
+app.use((0, cors_1.default)({
+    origin: (origin, callback) => {
+        if (!origin)
+            return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        return callback(null, false);
+    },
+    credentials: true
+}));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use('/api/model', Model_router_1.default);
@@ -26,6 +36,7 @@ app.use('/api/pricing-plan', PricingPlan_router_1.default);
 app.get('/', (_req, res) => {
     res.send('Hello from server!');
 });
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
 });
