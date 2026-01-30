@@ -2,6 +2,8 @@ import puppeteer from "puppeteer";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { ChatGroq } from "@langchain/groq";
 import { HumanMessage, SystemMessage } from "@langchain/core/messages";
+import chromium from "@sparticuz/chromium";
+import puppeteerCore from "puppeteer-core";
 
 let pageContent: string | null = null;
 
@@ -11,8 +13,17 @@ const llm = new ChatGroq({
         temperature: 0.4
     });
 
+const remoteExecutablePath =
+    "https://github.com/Sparticuz/chromium/releases/download/v121.0.0/chromium-v121.0.0-pack.tar";
+
+
 export const trainModel = async (url: string) => {
-    const browser = await puppeteer.launch({ headless: true });
+    const  browser = await puppeteerCore.launch({
+            args: chromium.args,
+            executablePath: await chromium.executablePath(remoteExecutablePath),
+            headless: true,
+        });
+
     const page = await browser.newPage();
     await page.goto(url, { waitUntil: "networkidle2", timeout: 0 });
     const rawText = await page.evaluate(() => document.body.innerText);
