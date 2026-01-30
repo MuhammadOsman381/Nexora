@@ -12,12 +12,28 @@ import pricingPlanRouter from './router/PricingPlan.router';
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+
+
 const allowedOrigins = [
-  'http://localhost:5173',
-  "https://nexora-seven-rosy.vercel.app/"
+  "http://localhost:5173",
+  "https://nexora-seven-rosy.vercel.app"
 ];
 
-app.use(cors({ origin: allowedOrigins }));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error("CORS not allowed"));
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+  })
+);
+
+// 🔥 THIS IS THE MOST IMPORTANT LINE
+app.options("*", cors());
 
 
 app.use(express.json());
