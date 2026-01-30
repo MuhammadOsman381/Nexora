@@ -13,6 +13,8 @@ import { Toaster } from "@/components/ui/sonner"
 import ChatInterfacePage from './pages/user/ChatInterfacePage.tsx'
 import AdminHome from './pages/admin/AdminHome.tsx'
 import AdminPricingPlan from './pages/admin/AdminPricingPlan.tsx'
+import Landing from "@/pages/landingPage/landing.tsx";
+import { TooltipProvider } from './components/ui/tooltip copy.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -29,50 +31,59 @@ createRoot(document.getElementById('root')!).render(
         },
       }}
     />
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <RouteProtector isAuthenticate={false}>
-              <LoginPage />
-            </RouteProtector>
-          }
-        />
-        <Route
-          path="/sign-up"
-          element={
-            <RouteProtector isAuthenticate={false}>
-              <SignUpPage />
-            </RouteProtector>
-          }
-        />
-        <Route
-          path="/admin"
-          element={
-            <RouteProtector isAuthenticate={true} allowedRole="ADMIN">
-              <UserLayout />
-            </RouteProtector>
-          }
-        >
-          <Route index element={<AdminHome />} />
-          <Route path="pricing-plan" element={<AdminPricingPlan />} />
+    <BrowserRouter  >
+      <TooltipProvider>
+        <Routes  >
 
-        </Route>
-        <Route
-          path="/user"
-          element={
-            <RouteProtector isAuthenticate={true} allowedRole="USER">
-              <UserLayout />
+          <Route path="/" element={
+            <RouteProtector isAuthenticate={false}>
+              <Landing />
             </RouteProtector>
-          }
-        >
-          <Route index element={<HomePage />} />
-          <Route path="history" element={<HistoryPage />} />
-          <Route path="chat/:chatId" element={<ChatInterfacePage />} />
-          <Route path="pricing-plan" element={<PricingPlansPage />} />
-        </Route>
-      </Routes>
+          } />
+          <Route
+            path="/login"
+            element={
+              <RouteProtector isAuthenticate={false}>
+                <LoginPage />
+              </RouteProtector>
+            }
+          />
+          <Route
+            path="/sign-up"
+            element={
+              <RouteProtector isAuthenticate={false}>
+                <SignUpPage />
+              </RouteProtector>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <RouteProtector isAuthenticate={true} allowedRole="ADMIN">
+                <UserLayout />
+              </RouteProtector>
+            }
+          >
+            <Route index element={<AdminHome />} />
+            <Route path="pricing-plan" element={<AdminPricingPlan />} />
+
+          </Route>
+          <Route
+            path="/user"
+            element={
+              <RouteProtector isAuthenticate={true} allowedRole="USER">
+                <UserLayout />
+              </RouteProtector>
+            }
+          >
+            <Route index element={<HomePage />} />
+            <Route path="history" element={<HistoryPage />} />
+            <Route path="chat/:chatId" element={<ChatInterfacePage />} />
+            <Route path="pricing-plan" element={<PricingPlansPage />} />
+          </Route>
+        </Routes>
+      </TooltipProvider>
     </BrowserRouter>
+
   </StrictMode>
 )

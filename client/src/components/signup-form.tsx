@@ -8,6 +8,7 @@ import axios from "axios"
 import { Link, useNavigate } from "react-router-dom";
 import usePostAndPut from "@/hooks/usePostAndPut";
 import SpinnerLoader from "./SpinnerLoader";
+import img from "@/assets/img.png"
 
 interface User {
     name: string;
@@ -84,7 +85,7 @@ export function SignUpForm({ className, ...props }: React.ComponentProps<"div">)
                                     onChange={handleInputChange}
                                 />
                             </div>
-                            <Button type="submit" className="w-full">
+                            <Button disabled={post.loading} type="submit" className="w-full">
                                 {
                                     post.loading ?
                                         <div className="flex items-center justify-center gap-3" >
@@ -97,18 +98,18 @@ export function SignUpForm({ className, ...props }: React.ComponentProps<"div">)
                             </Button>
                             <div className="text-center text-sm">
                                 if you have an account?
-                                <Link to="/" className="underline underline-offset-4">
+                                <Link to="/login" className="underline underline-offset-4">
                                     Login
                                 </Link>
                             </div>
                         </div>
                     </form>
                     <div className="relative rounded-l-2xl hidden bg-gray-100 md:block dark:bg-gray-800">
-                        {/* <img
-                            src="/placeholder.svg"
+                        <img
+                            src={img}
                             alt="Image"
-                            className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-                        /> */}
+                            className="absolute inset-0 h-full w-full object-contain dark:brightness-[0.2] dark:grayscale"
+                        />
                     </div>
                 </CardContent>
             </Card>

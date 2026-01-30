@@ -10,6 +10,7 @@ import { useState } from "react"
 import SpinnerLoader from "./SpinnerLoader"
 import Helpers from "@/config/Helpers"
 import * as CryptoJS from 'crypto-js';
+import img from "@/assets/img.png"
 
 interface User {
   email: string;
@@ -48,7 +49,7 @@ export function LoginForm({
   };
 
   return (
-    
+
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden">
         <CardContent className="grid p-0 md:grid-cols-2">
@@ -79,7 +80,7 @@ export function LoginForm({
 
                 />
               </div>
-              <Button type="submit" className="w-full">
+              <Button disabled={post.loading} type="submit" className="w-full">
                 {post.loading ?
                   <div className="flex items-center justify-center gap-3" >
                     <span>
@@ -98,11 +99,11 @@ export function LoginForm({
             </div>
           </form>
           <div className="relative hidden rounded-l-2xl bg-gray-100 md:block dark:bg-gray-800">
-            {/* <img
-              src="/placeholder.svg"
+            <img
+              src={img}
               alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-            /> */}
+              className="absolute inset-0 h-full w-full object-contain dark:brightness-[0.2] dark:grayscale"
+            />
           </div>
         </CardContent>
       </Card>

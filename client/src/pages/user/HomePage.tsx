@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import usePostAndPut from "@/hooks/usePostAndPut"
 import axios from "axios"
@@ -34,14 +33,13 @@ export default function HomePage() {
   }
 
   return (
-    <Card className=" mx-auto   shadow-none rounded-md border-gray-300 ">
+    <Card className=" mx-auto   shadow-none rounded-xl  ">
       <CardHeader>
         <CardTitle className="text-xl">Chat with AI</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="title">Title</Label>
             <Input
               id="title"
               name="title"
@@ -53,7 +51,6 @@ export default function HomePage() {
           </div>
 
           <div>
-            <Label htmlFor="url">URL</Label>
             <Input
               id="url"
               name="url"
@@ -74,7 +71,7 @@ export default function HomePage() {
                       Please wait
                     </span>
                     <SpinnerLoader color="white" size="10" />
-                  </div> : "Start Chatting"
+                  </div> : "Start "
               }
             </Button>
           </div>

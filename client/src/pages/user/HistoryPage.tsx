@@ -53,7 +53,7 @@ const HistoryPage = () => {
               chats.map(chat => (
                 <Card
                   key={chat.id}
-                  className="border-gray-300 mb-2 p-4 shadow-none rounded-md"
+                  className=" mb-2 p-4 shadow-none "
                 >
                   <div className="flex justify-between items-center  ">
                     <Link to={`/user/chat/${chat.id}`} className="flex-1">

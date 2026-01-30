@@ -22,7 +22,7 @@ const RouteProtector = ({ children, isAuthenticate, allowedRole }: RouteProtecto
         } catch (error) {
             console.error("Error decrypting userType:", error);
             localStorage.removeItem("userType");
-            return <Navigate to="/" replace />;
+            return <Navigate to="/login" replace />;
         }
     }
     if (isAuthenticate) {

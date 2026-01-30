@@ -80,7 +80,7 @@ const CheckoutForm = ({ selectedPlan, setShowCheckOutSection }: any) => {
     }, []);
 
     return (
-        <Card className="w-full max-w-3xl shadow-none border-gray-300 ">
+        <Card className="w-full max-w-full shadow-none border-gray-300 ">
             <CardHeader>
                 <CardTitle>Checkout</CardTitle>
                 <CardDescription>Complete your subscription</CardDescription>

@@ -61,8 +61,8 @@ const ChatInterfacePage = () => {
             {
                 trainModel.loading  ?
                     <PageLoader /> :
-                    <div className="max-w-7xl flex flex-col h-[88vh] border border-gray-300 p-4 rounded-md mx-auto">
-                        <ScrollArea className="flex-1 overflow-y-auto   rounded-lg p-4   ">
+                    <div className="max-w-full flex flex-col h-[89vh] border border-none p-2 rounded-md mx-auto">
+                        <ScrollArea className="flex-1 overflow-y-auto  rounded-xl p-2   ">
                             <div className="space-y-3">
                                 {messages.map((msg, index) => (
                                     <div
@@ -71,8 +71,8 @@ const ChatInterfacePage = () => {
                                     >
                                         <Card
                                             className={`max-w-2xl shadow-none  px-4 py-2 ${msg.role === "user"
-                                                ? "bg-black text-white rounded-br-none"
-                                                : "bg-white text-black border-gray-300 rounded-bl-none"
+                                                ? "bg-primary text-white rounded-br-none"
+                                                : "bg-white text-black border-gray-200 rounded-bl-none"
                                                 }`}
                                         >
                                             {msg.role === "bot" ? (
@@ -86,7 +86,7 @@ const ChatInterfacePage = () => {
                             </div>
                         </ScrollArea>
 
-                        <div className="flex items-center justify-center gap-2 border p-2 rounded-md bg-white border-gray-300">
+                        <div className="flex items-center justify-center gap-2 border p-1 rounded-xl bg-white border-gray-300">
                             <input
                                 type="text"
                                 value={input}

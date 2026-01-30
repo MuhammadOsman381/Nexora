@@ -8,10 +8,10 @@ const UserLayout = () => {
     return (
         <SidebarProvider>
             <AppSidebar />
-            <div className="w-full" >
+            <div className="w-full " >
                 <NavBar />
                 <div className=" w-full flex justify-center" >
-                    <div className="lg:w-[70vw] " >
+                    <div className="w-full h-full " >
                         <App />
                     </div>
                 </div>
