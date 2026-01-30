@@ -1,7 +1,7 @@
 class Helpers {
     static localhost: string = 'localhost:5001';
-    static server: string = '1.1.1.1.1:4000';
-    static basePath: string = `http://${this.localhost}`;
+    static server: string = 'nexora-i1l2.onrender.com';
+    static basePath: string = `https://${this.server}`;
     static apiUrl: string = `${this.basePath}/api/`;
     static secretKey: string = '3434774438';
 }
