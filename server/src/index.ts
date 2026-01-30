@@ -1,16 +1,23 @@
-import express from 'express';
-import modelRouter  from './router/Model.router';
 import dotenv from 'dotenv';
+dotenv.config();
+
+import express from 'express';
+import modelRouter from './router/Model.router';
 import authRouter from './router/Auth.router';
 import cors from 'cors';
 import chatRouter from './router/Chat.router';
 import pricingPlanRouter from './router/PricingPlan.router';
 
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-app.use(cors());
+
+const allowedOrigins = [
+  'http://localhost:5173',
+];
+
+app.use(cors({ origin: allowedOrigins }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

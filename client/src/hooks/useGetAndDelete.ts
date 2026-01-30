@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Helpers from "@/config/Helpers";
-import type { AxiosError } from "axios";
 import { toast } from "sonner";
 
 type ApiMethod = (url: string, config: { headers: any }) => Promise<any>;

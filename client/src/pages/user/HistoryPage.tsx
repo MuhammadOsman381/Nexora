@@ -1,7 +1,7 @@
 import useGetAndDelete from "@/hooks/useGetAndDelete"
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { Card, CardContent, CardTitle } from "@/components/ui/card"
+import { Card, CardTitle } from "@/components/ui/card"
 import PageLoader from "@/components/PageLoader"
 import { Link } from "react-router-dom"
 import { Pencil, Trash2 } from "lucide-react"

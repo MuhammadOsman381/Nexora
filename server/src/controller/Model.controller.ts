@@ -121,7 +121,9 @@ export const handleAsk = async (req: Request, res: Response) => {
             },
         });
 
-        res.json({ answer });
+        console.log("Answer:", answer);
+
+        res.json({ answer:answer, });
     } catch (error) {
         console.error("QA Error:", error);
         const errorMessage = error instanceof Error ? error.message : "Failed to answer question.";
