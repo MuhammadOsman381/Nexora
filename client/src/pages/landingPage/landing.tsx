@@ -11,13 +11,12 @@ import {
   Link as LinkIcon,
   Search,
   BrainCircuit,
-  Zap,
   Check,
   Star,
   Menu,
   X
 } from "lucide-react";
-import { SiX, SiGithub, SiLinkedin } from "react-icons/si";
+import {  SiGithub, SiLinkedin } from "react-icons/si";
 import { useEffect, useState } from "react";
 import useGetAndDelete from "@/hooks/useGetAndDelete";
 import axios from "axios";
