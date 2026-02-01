@@ -75,8 +75,16 @@ function Navigation() {
               <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors px-2 py-1" data-testid="link-pricing-mobile">Pricing</a>
               <a href="#testimonials" className="text-muted-foreground hover:text-foreground transition-colors px-2 py-1" data-testid="link-testimonials-mobile">Testimonials</a>
               <div className="flex gap-3 pt-2 flex-wrap">
-                <Button variant="ghost" className="flex-1" data-testid="button-login-mobile">Log In</Button>
-                <Button className="flex-1" data-testid="button-get-started-mobile">Get Started</Button>
+                <Button
+                  onClick={() => {
+                    navigate("/login")
+                  }}
+                  variant="ghost" className="flex-1" data-testid="button-login-mobile">Log In</Button>
+                <Button
+                  onClick={() => {
+                    navigate("/sign-up")
+                  }}
+                  className="flex-1" data-testid="button-get-started-mobile">Get Started</Button>
               </div>
             </div>
           </div>
@@ -87,6 +95,8 @@ function Navigation() {
 }
 
 function HeroSection() {
+  const navigate = useNavigate();
+
   return (
     <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary/10" />
@@ -111,12 +121,13 @@ function HeroSection() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 flex-wrap">
-              <Button size="lg" data-testid="button-get-started-hero">
-                Get Started Free
+              <Button
+                onClick={() => {
+                  navigate("/sign-up")
+                }}
+                size="lg" data-testid="button-get-started-hero">
+                Get Started
                 <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-              <Button size="lg" variant="outline" data-testid="button-watch-demo">
-                Watch Demo
               </Button>
             </div>
 
@@ -418,7 +429,7 @@ const PricingSection = () => {
                 <Button
                   className="w-full"
                   variant={plan.popular ? "default" : "outline"}
-                  onClick={()=>{
+                  onClick={() => {
                     navigate("/login")
                   }}
                   data-testid={`button-pricing-${plan.name.toLowerCase()}`}
@@ -506,6 +517,7 @@ function TestimonialsSection() {
 }
 
 function CTASection() {
+  const navigate = useNavigate();
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary/10 via-background to-primary/5">
       <div className="max-w-4xl mx-auto text-center">
@@ -517,12 +529,13 @@ function CTASection() {
           Join thousands of users who are already using WebChat AI to extract insights from any website. Start for free today.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center flex-wrap">
-          <Button size="lg" data-testid="button-cta-start">
-            Get Started Free
+          <Button
+            onClick={() => {
+              navigate("sign-up")
+            }}
+            size="lg" data-testid="button-cta-start">
+            Get Started
             <ArrowRight className="w-4 h-4 ml-2" />
-          </Button>
-          <Button size="lg" variant="outline" data-testid="button-cta-contact">
-            Contact Sales
           </Button>
         </div>
       </div>
@@ -540,21 +553,18 @@ function Footer() {
               <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
                 <BrainCircuit className="w-5 h-5 text-primary-foreground" />
               </div>
-              <span className="font-bold text-lg" data-testid="text-footer-brand">WebChat AI</span>
+              <span className="font-bold text-lg" data-testid="text-footer-brand">Nexora</span>
             </a>
             <p className="text-sm text-muted-foreground mb-4" data-testid="text-footer-tagline">
               Turn any website into your personal AI knowledge base.
             </p>
             <div className="flex gap-3 flex-wrap">
-              <Button variant="ghost" size="icon" data-testid="button-social-twitter">
-                <SiX className="w-4 h-4" />
-              </Button>
-              <Button variant="ghost" size="icon" data-testid="button-social-github">
+              <a href="https://github.com/MuhammadOsman381" target="_blank" data-testid="button-social-github">
                 <SiGithub className="w-4 h-4" />
-              </Button>
-              <Button variant="ghost" size="icon" data-testid="button-social-linkedin">
+              </a>
+              <a href="https://www.linkedin.com/in/mosman257" target="_blank" data-testid="button-social-linkedin">
                 <SiLinkedin className="w-4 h-4" />
-              </Button>
+              </a>
             </div>
           </div>
 
@@ -590,10 +600,7 @@ function Footer() {
 
         <div className="border-t border-border pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted-foreground" data-testid="text-footer-copyright">
-            2026 WebChat AI. All rights reserved.
-          </p>
-          <p className="text-sm text-muted-foreground" data-testid="text-footer-made-by">
-            Made with <Zap className="w-3 h-3 inline text-primary" /> by WebChat AI Team
+            2026 Nexora. All rights reserved.
           </p>
         </div>
       </div>
