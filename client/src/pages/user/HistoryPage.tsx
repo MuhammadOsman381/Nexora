@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Card, CardTitle } from "@/components/ui/card"
 import PageLoader from "@/components/PageLoader"
 import { Link } from "react-router-dom"
-import { Pencil, Trash2 } from "lucide-react"
+import { Trash2 } from "lucide-react"
 import MessageCard from "@/components/MessageCard"
 
 interface Chat {
@@ -19,6 +19,8 @@ const HistoryPage = () => {
   const [chats, setChats] = useState<Chat[]>([])
   const [message, setMessage] = useState<string>('');
 
+  const deleteChat = useGetAndDelete(axios.put)
+
   const getChats = async () => {
     const response = await get.callApi("chat/get", true, false)
     if (response?.data.length > 0) {
@@ -29,12 +31,10 @@ const HistoryPage = () => {
     }
   }
 
-  const handleEdit = (id: number) => {
-    console.log("Edit chat", id)
-  }
 
   const handleDelete = async (id: number) => {
-    console.log("Delete chat", id)
+    await deleteChat.callApi(`chat/delete/${id}`, true, false)
+    getChats()
   }
 
   useEffect(() => {
@@ -68,12 +68,8 @@ const HistoryPage = () => {
                       </a>
                     </Link>
 
-                    <div className="flex gap-3 ml-4">
-                      <Pencil
-                        size={18}
-                        className="text-blue-500 hover:text-blue-600 cursor-pointer"
-                        onClick={() => handleEdit(chat.id)}
-                      />
+                    <div
+                      className="flex gap-3 ml-4">
                       <Trash2
                         size={18}
                         className="text-red-500 hover:text-red-600 cursor-pointer"

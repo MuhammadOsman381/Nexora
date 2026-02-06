@@ -19,3 +19,31 @@ export const getChat = async (req: Request, res: Response) => {
     }
 };
 
+export const deleteChat = async (req: Request, res: Response) => {
+    const chatId = Number(req.params.id);
+
+    if (isNaN(chatId)) {
+        sendResponse(res, 400, "Invalid chat id", null);
+        return
+    }
+
+    try {
+        const chat = await queryHandler({
+            model: "chat",
+            action: "delete",
+            args: {
+                where: {
+                    id: chatId,
+                },
+            },
+        });
+
+        sendResponse(res, 200, "Chat deleted successfully", chat);
+        return
+    } catch (error) {
+        const errorMessage =
+            error instanceof Error ? error.message : "Failed to delete chat.";
+        sendResponse(res, 500, errorMessage, null);
+        return
+    }
+};

@@ -5,6 +5,7 @@ import { queryHandler } from "../services/Prisma.service";
 
 const isUserExist = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const token = req.headers["token"];
+    console.log("Token from header:", token); 
     if (!token) {
         sendResponse(res, 401, "Access token is missing!", null)
         return

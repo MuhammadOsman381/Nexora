@@ -13,18 +13,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.askQuestion = exports.trainModel = void 0;
-const puppeteer_1 = __importDefault(require("puppeteer"));
 const textsplitters_1 = require("@langchain/textsplitters");
 const groq_1 = require("@langchain/groq");
 const messages_1 = require("@langchain/core/messages");
+const chromium_1 = __importDefault(require("@sparticuz/chromium"));
+const puppeteer_core_1 = __importDefault(require("puppeteer-core"));
 let pageContent = null;
 const llm = new groq_1.ChatGroq({
     apiKey: process.env.GROQ_API_KEY,
     model: "meta-llama/llama-4-maverick-17b-128e-instruct",
     temperature: 0.4
 });
+const remoteExecutablePath = "https://github.com/Sparticuz/chromium/releases/download/v121.0.0/chromium-v121.0.0-pack.tar";
 const trainModel = (url) => __awaiter(void 0, void 0, void 0, function* () {
-    const browser = yield puppeteer_1.default.launch({ headless: true });
+    const browser = yield puppeteer_core_1.default.launch({
+        args: chromium_1.default.args,
+        executablePath: yield chromium_1.default.executablePath(remoteExecutablePath),
+        headless: true,
+    });
     const page = yield browser.newPage();
     yield page.goto(url, { waitUntil: "networkidle2", timeout: 0 });
     const rawText = yield page.evaluate(() => document.body.innerText);
