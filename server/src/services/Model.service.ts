@@ -24,7 +24,7 @@ export const trainModel = async (chat: any, user: any) => {
     return
 }
 
-export const askQuestion = async (question: string, chat: Chat) => {
+export const askQuestion = async (question: string, chat: any) => {
     const pc = new Pinecone({
         apiKey: process.env.PINECONE_API_KEY!,
     });
