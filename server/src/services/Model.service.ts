@@ -5,7 +5,7 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import { PineconeStore } from "@langchain/pinecone";
 import { RetrievalQAChain } from "@langchain/classic/chains";
 import { sendModelReadyEmail } from "./NodeMailer.service";
-import { User, Chat } from "../generated/prisma/client"
+import { User, Chat } from "@/generated/prisma/client"
 
 const llm = new ChatGroq({
     apiKey: process.env.GROQ_API_KEY!,
