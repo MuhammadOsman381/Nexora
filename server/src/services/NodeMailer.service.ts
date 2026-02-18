@@ -42,7 +42,7 @@ export const sendModelReadyEmail = async (
             You can now start using your model.
           </p>
           <div style="text-align:center;margin:30px 0;">
-            <a href="https://localhost:5173/user/chat/${chatId}" 
+            <a href="https://nexora-seven-rosy.vercel.app/user/chat/${chatId}" 
                style="background-color:#f97316;color:#ffffff;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:bold;font-size:14px;display:inline-block;">
                Open Your Chat
             </a>

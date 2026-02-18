@@ -6,6 +6,7 @@ import { PineconeStore } from "@langchain/pinecone";
 import { RetrievalQAChain } from "@langchain/classic/chains";
 import { sendModelReadyEmail } from "./NodeMailer.service";
 import { User, Chat } from "../generated/prisma/client"
+import { ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate } from "@langchain/core/prompts";
 
 const llm = new ChatGroq({
     apiKey: process.env.GROQ_API_KEY!,
@@ -36,7 +37,18 @@ export const askQuestion = async (question: string, chat: Chat) => {
             namespace: chat.nameSpace,
         },
     );
-    const chain = RetrievalQAChain.fromLLM(llm, vectorStore.asRetriever());
+    const systemPrompt = SystemMessagePromptTemplate.fromTemplate(
+        `You are a helpful AI assistant. Answer the user's question ONLY using the provided context from the vector store. 
+       Do NOT make up answers. 
+       If the answer is not in the context, respond: "I don't know."`
+    );
+    const humanPrompt = HumanMessagePromptTemplate.fromTemplate("{question}");
+    const prompt = ChatPromptTemplate.fromMessages([systemPrompt, humanPrompt]);
+    const chain = RetrievalQAChain.fromLLM(llm, vectorStore.asRetriever(), {
+        returnSourceDocuments: false,
+        prompt,
+    });
+
     const response = await chain.call({ query: question })
     return response.text;
 };
