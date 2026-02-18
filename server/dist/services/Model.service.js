@@ -8,50 +8,42 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.askQuestion = exports.trainModel = void 0;
-const textsplitters_1 = require("@langchain/textsplitters");
 const groq_1 = require("@langchain/groq");
-const messages_1 = require("@langchain/core/messages");
-const chromium_1 = __importDefault(require("@sparticuz/chromium"));
-const puppeteer_core_1 = __importDefault(require("puppeteer-core"));
-let pageContent = null;
+const WebCrawler_service_1 = require("./WebCrawler.service");
+const Embeddings_service_1 = require("./Embeddings.service");
+const pinecone_1 = require("@pinecone-database/pinecone");
+const pinecone_2 = require("@langchain/pinecone");
+const chains_1 = require("@langchain/classic/chains");
+const NodeMailer_service_1 = require("./NodeMailer.service");
 const llm = new groq_1.ChatGroq({
     apiKey: process.env.GROQ_API_KEY,
     model: "meta-llama/llama-4-maverick-17b-128e-instruct",
     temperature: 0.4
 });
-const remoteExecutablePath = "https://github.com/Sparticuz/chromium/releases/download/v121.0.0/chromium-v121.0.0-pack.tar";
-const trainModel = (url) => __awaiter(void 0, void 0, void 0, function* () {
-    const browser = yield puppeteer_core_1.default.launch({
-        args: chromium_1.default.args,
-        executablePath: yield chromium_1.default.executablePath(remoteExecutablePath),
-        headless: true,
-    });
-    const page = yield browser.newPage();
-    yield page.goto(url, { waitUntil: "networkidle2", timeout: 0 });
-    const rawText = yield page.evaluate(() => document.body.innerText);
-    yield browser.close();
-    const splitter = new textsplitters_1.RecursiveCharacterTextSplitter({
-        chunkSize: 16000,
-        chunkOverlap: 50,
-    });
-    const docs = yield splitter.createDocuments([rawText]);
-    pageContent = docs.map(doc => doc.pageContent).join("\n");
+const trainModel = (chat, user) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = yield (0, WebCrawler_service_1.getLinks)(chat.url);
+    const uniqueLinks = Array.from(new Set(data));
+    const textData = yield (0, WebCrawler_service_1.crawlPages)(uniqueLinks);
+    const rawText = textData.join("\n");
+    yield (0, Embeddings_service_1.createEmbeddings)(rawText, chat.nameSpace);
+    yield (0, Embeddings_service_1.vectorDB)(chat.nameSpace, `./embeddings/${chat.nameSpace}.json`);
+    (0, NodeMailer_service_1.sendModelReadyEmail)(user.email, chat.title, chat.id.toString());
+    return;
 });
 exports.trainModel = trainModel;
-const askQuestion = (question) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!pageContent)
-        throw new Error("Model not trained yet");
-    const chatMesages = [
-        new messages_1.SystemMessage(`You are a helpful AI assistant.
-        Use the following context to answer the question.`),
-        new messages_1.HumanMessage(`Context:\n${pageContent}\n\nQuestion:\n${question}`),
-    ];
-    const response = yield llm.invoke(chatMesages);
-    return response.content;
+const askQuestion = (question, chat) => __awaiter(void 0, void 0, void 0, function* () {
+    const pc = new pinecone_1.Pinecone({
+        apiKey: process.env.PINECONE_API_KEY,
+    });
+    const index = pc.Index(process.env.PINECONE_INDEX_NAME);
+    const vectorStore = yield pinecone_2.PineconeStore.fromExistingIndex(Embeddings_service_1.customEmbedder, {
+        pineconeIndex: index,
+        namespace: chat.nameSpace,
+    });
+    const chain = chains_1.RetrievalQAChain.fromLLM(llm, vectorStore.asRetriever());
+    const response = yield chain.call({ query: question });
+    return response.text;
 });
 exports.askQuestion = askQuestion;

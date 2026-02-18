@@ -8,4 +8,5 @@ const Auth_middleware_1 = require("../middleware/Auth.middleware");
 const Chat_controller_1 = require("../controller/Chat.controller");
 const chatRouter = express_1.default.Router();
 chatRouter.get('/get', Auth_middleware_1.isUserExist, Chat_controller_1.getChat);
+chatRouter.put('/delete/:id', Chat_controller_1.deleteChat);
 exports.default = chatRouter;

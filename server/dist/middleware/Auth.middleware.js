@@ -18,6 +18,7 @@ const Response_service_1 = require("../services/Response.service");
 const Prisma_service_1 = require("../services/Prisma.service");
 const isUserExist = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.headers["token"];
+    console.log("Token from header:", token);
     if (!token) {
         (0, Response_service_1.sendResponse)(res, 401, "Access token is missing!", null);
         return;

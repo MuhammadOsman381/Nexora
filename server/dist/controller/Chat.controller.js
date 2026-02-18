@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getChat = void 0;
+exports.deleteChat = exports.getChat = void 0;
 const Prisma_service_1 = require("../services/Prisma.service");
 const Response_service_1 = require("../services/Response.service");
 const getChat = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -30,3 +30,29 @@ const getChat = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getChat = getChat;
+const deleteChat = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const chatId = Number(req.params.id);
+    if (isNaN(chatId)) {
+        (0, Response_service_1.sendResponse)(res, 400, "Invalid chat id", null);
+        return;
+    }
+    try {
+        const chat = yield (0, Prisma_service_1.queryHandler)({
+            model: "chat",
+            action: "delete",
+            args: {
+                where: {
+                    id: chatId,
+                },
+            },
+        });
+        (0, Response_service_1.sendResponse)(res, 200, "Chat deleted successfully", chat);
+        return;
+    }
+    catch (error) {
+        const errorMessage = error instanceof Error ? error.message : "Failed to delete chat.";
+        (0, Response_service_1.sendResponse)(res, 500, errorMessage, null);
+        return;
+    }
+});
+exports.deleteChat = deleteChat;
