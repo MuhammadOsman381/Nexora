@@ -31,6 +31,8 @@ model Chat {
   url           String
   totalMessages Int
   user          User      @relation(fields: [userId], references: [id])
+  nameSpace     String    @unique
+  embeddings    String
   messages      Message[]
 }
 

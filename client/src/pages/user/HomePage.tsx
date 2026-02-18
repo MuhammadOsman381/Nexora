@@ -7,12 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import usePostAndPut from "@/hooks/usePostAndPut"
 import axios from "axios"
 import SpinnerLoader from "@/components/SpinnerLoader"
-import { useNavigate } from "react-router-dom"
 
 export default function HomePage() {
   const post = usePostAndPut(axios.post);
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     title: "",
     url: "",
@@ -25,15 +22,12 @@ export default function HomePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const response = await post.callApi('model/create-chat', formData, true, false, true);
-    if (response.data.data.chat.id !== null) {
-      navigate(`/user/chat/${response?.data?.data?.chat?.id}`);
-      return
-    }
+    await post.callApi('model/create-chat', formData, true, false, true);
+    return
   }
 
   return (
-    <Card className=" mx-auto   shadow-none rounded-xl  ">
+    <Card className=" mx-auto shadow-none rounded-xl  ">
       <CardHeader>
         <CardTitle className="text-xl">Chat with AI</CardTitle>
       </CardHeader>

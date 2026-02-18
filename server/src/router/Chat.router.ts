@@ -7,4 +7,4 @@ const chatRouter = express.Router();
 chatRouter.get('/get', isUserExist, getChat)
 chatRouter.put('/delete/:id', deleteChat)
 
-export default chatRouter;
+export default chatRouter
