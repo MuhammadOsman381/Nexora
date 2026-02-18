@@ -15,63 +15,6 @@ const Prisma_service_1 = require("../services/Prisma.service");
 const Response_service_1 = require("../services/Response.service");
 const crypto_1 = require("crypto");
 const Redis_service_1 = require("../services/Redis.service");
-// export const createChat = async (req: Request, res: Response) => {
-//     const { title, url } = req.body;
-//     const user = (req as any).user;
-//     try {
-//         const userPlan = await queryHandler({
-//             model: "userPlan",
-//             action: "findFirst",
-//             args: {
-//                 where: {
-//                     userId: user.id,
-//                     status: "ACTIVE",
-//                 },
-//             },
-//         });
-//         if (!userPlan) {
-//             sendResponse(res, 404, "User plan is not active yet.", null);
-//             return
-//         }
-//         if (userPlan.totalNumberOfChats <= 0) {
-//             sendResponse(res, 403, "You have used all your allowed chats.", null);
-//             return
-//         }
-//         const remainingChats = userPlan.totalNumberOfChats - 1;
-//         const messagesPerChat = remainingChats > 0
-//             ? Math.floor(userPlan.totalNumberOfMsgs / userPlan.totalNumberOfChats)
-//             : userPlan.totalNumberOfMsgs;
-//         const chat = await queryHandler({
-//             model: "chat",
-//             action: "create",
-//             args: {
-//                 data: {
-//                     title,
-//                     url,
-//                     userId: user.id,
-//                     totalMessages: messagesPerChat,
-//                     nameSpace: `${title}-${randomUUID()}`,
-//                     embeddings: "",
-//                 },
-//             },
-//         });
-//         await queryHandler({
-//             model: "userPlan",
-//             action: "update",
-//             args: {
-//                 where: { id: userPlan.id },
-//                 data: {
-//                     totalNumberOfChats: remainingChats,
-//                     totalNumberOfMsgs: userPlan.totalNumberOfMsgs - messagesPerChat,
-//                 },
-//             },
-//         });
-//         sendResponse(res, 200, "Chat created successfully.", { chat });
-//     } catch (error) {
-//         console.error("Error creating chat:", error);
-//         res.status(500).json({ error: "Chat creation failed." });
-//     }
-// };
 const createChat = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, url } = req.body;
     const user = req.user;

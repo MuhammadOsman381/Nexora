@@ -11,7 +11,6 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "userType" "UserType" NOT NULL,
-
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
@@ -22,7 +21,8 @@ CREATE TABLE "Chat" (
     "title" TEXT NOT NULL,
     "url" TEXT NOT NULL,
     "totalMessages" INTEGER NOT NULL,
-
+    "nameSpace" TEXT NOT NULL,
+    "embeddings" TEXT NOT NULL,
     CONSTRAINT "Chat_pkey" PRIMARY KEY ("id")
 );
 
