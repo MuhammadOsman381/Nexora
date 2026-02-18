@@ -13,7 +13,7 @@ const llm = new ChatGroq({
     temperature: 0.4
 });
 
-export const trainModel = async (chat: Chat, user: User) => {
+export const trainModel = async (chat: any, user: any) => {
     const data = await getLinks(chat.url)
     const uniqueLinks = Array.from(new Set(data));
     const textData = await crawlPages(uniqueLinks)

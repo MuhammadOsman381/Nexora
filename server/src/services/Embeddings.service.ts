@@ -23,7 +23,7 @@ async function chunkText(text: string) {
 export async function createEmbeddings(textData: string, fileName: string) {
     const chunks = await chunkText(textData);
     const model = await getEmbedder();
-    const embeddingStore = [];
+    const embeddingStore: { text: string, vector: any }[] = [];
     for (const chunk of chunks) {
         const embeddingTensor = await model(chunk.pageContent, {
             pooling: "mean",

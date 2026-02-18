@@ -15,7 +15,7 @@ export const createPlan = async (req: Request, res: Response) => {
             features,
         } = req.body;
 
-        let stripePriceId = null;
+        let stripePriceId: string | null = null;
         if (Number(price) > 0) {
 
             const product = await stripe.products.create({
