@@ -5,7 +5,7 @@ import { Pinecone } from "@pinecone-database/pinecone";
 import { PineconeStore } from "@langchain/pinecone";
 import { RetrievalQAChain } from "@langchain/classic/chains";
 import { sendModelReadyEmail } from "./NodeMailer.service";
-
+import { User, Chat } from "../generated/prisma/client"
 
 const llm = new ChatGroq({
     apiKey: process.env.GROQ_API_KEY!,
@@ -13,7 +13,7 @@ const llm = new ChatGroq({
     temperature: 0.4
 });
 
-export const trainModel = async (chat: any, user: any) => {
+export const trainModel = async (chat: Chat, user: User) => {
     const data = await getLinks(chat.url)
     const uniqueLinks = Array.from(new Set(data));
     const textData = await crawlPages(uniqueLinks)
@@ -24,7 +24,7 @@ export const trainModel = async (chat: any, user: any) => {
     return
 }
 
-export const askQuestion = async (question: string, chat: any) => {
+export const askQuestion = async (question: string, chat: Chat) => {
     const pc = new Pinecone({
         apiKey: process.env.PINECONE_API_KEY!,
     });

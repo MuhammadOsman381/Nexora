@@ -1,4 +1,4 @@
-import { prisma } from "../lib/prism"
+import { prisma } from "../lib/prisma"
 
 export const queryHandler = async (
     query: {
