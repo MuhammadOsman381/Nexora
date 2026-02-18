@@ -6,6 +6,7 @@ import { PineconeStore } from "@langchain/pinecone";
 import { RetrievalQAChain } from "@langchain/classic/chains";
 import { sendModelReadyEmail } from "./NodeMailer.service";
 
+
 const llm = new ChatGroq({
     apiKey: process.env.GROQ_API_KEY!,
     model: "meta-llama/llama-4-maverick-17b-128e-instruct",

@@ -10,13 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.queryHandler = void 0;
-const client_1 = require("@prisma/client");
-const prisma = new client_1.PrismaClient();
+const prism_1 = require("../lib/prism");
 const queryHandler = (query) => __awaiter(void 0, void 0, void 0, function* () {
     const { model, action, args } = query;
     try {
         // @ts-ignore
-        const result = yield prisma[model][action](args);
+        const result = yield prism_1.prisma[model][action](args);
         return result;
     }
     catch (error) {

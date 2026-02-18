@@ -83,7 +83,7 @@ const createChat = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.createChat = createChat;
 const handleAsk = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { question } = req.body;
-    const chatId = parseInt(req.params.chatId, 10);
+    const chatId = Number(req.params.chatId);
     const userId = req.user.id;
     try {
         const chat = yield (0, Prisma_service_1.queryHandler)({
@@ -182,7 +182,7 @@ const trainAIModel = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.trainAIModel = trainAIModel;
 const getChatByID = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const chatId = parseInt(req.params.chatId, 10);
+    const chatId = Number(req.params.chatId);
     if (isNaN(chatId)) {
         (0, Response_service_1.sendResponse)(res, 400, "Invalid chat ID.", null);
         return;
