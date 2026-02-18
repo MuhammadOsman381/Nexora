@@ -1,5 +1,4 @@
 import { ChatGroq } from "@langchain/groq";
-import { Chat, User } from "@prisma/client";
 import { crawlPages, getLinks } from "./WebCrawler.service";
 import { createEmbeddings, customEmbedder, vectorDB } from "./Embeddings.service";
 import { Pinecone } from "@pinecone-database/pinecone";

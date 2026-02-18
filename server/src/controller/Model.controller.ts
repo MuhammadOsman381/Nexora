@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { trainModel, askQuestion } from '../services/Model.service';
+import { askQuestion } from '../services/Model.service';
 import { queryHandler } from '../services/Prisma.service';
 import { sendResponse } from '../services/Response.service';
 import { randomUUID } from 'crypto';
@@ -92,7 +92,7 @@ export const createChat = async (req: Request, res: Response) => {
 
 export const handleAsk = async (req: Request, res: Response) => {
     const { question } = req.body;
-    const chatId = parseInt(req.params.chatId, 10);
+    const chatId = Number(req.params.chatId);
     const userId = (req as any).user.id;
 
     try {
@@ -200,7 +200,7 @@ export const trainAIModel = async (req: Request, res: Response) => {
 
 
 export const getChatByID = async (req: Request, res: Response) => {
-    const chatId = parseInt(req.params.chatId, 10);
+    const chatId = Number(req.params.chatId);
     if (isNaN(chatId)) {
         sendResponse(res, 400, "Invalid chat ID.", null)
         return
