@@ -25,7 +25,7 @@ export const sendModelReadyEmail = async (
     <table align="center" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;font-family:Arial,Helvetica,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,0.08);">
       <tr>
         <td style="background-color:#f97316;padding:30px;text-align:center;color:#ffffff;">
-          <h1 style="margin:0;font-size:24px;">Your Model is Ready 🚀</h1>
+          <h1 style="margin:0;font-size:24px;">Your Model is Ready</h1>
         </td>
       </tr>
       <tr>
@@ -42,7 +42,7 @@ export const sendModelReadyEmail = async (
             You can now start using your model.
           </p>
           <div style="text-align:center;margin:30px 0;">
-            <a href="https://localhost:5173/user/chat/${chatId}" 
+            <a href="https://nexora-seven-rosy.vercel.app/user/chat/${chatId}" 
                style="background-color:#f97316;color:#ffffff;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:bold;font-size:14px;display:inline-block;">
                Open Your Chat
             </a>
@@ -51,7 +51,7 @@ export const sendModelReadyEmail = async (
             If the button doesn’t work, copy and paste this link into your browser:
             <br/>
             <a href="https://localhost:5173/user/chat/${chatId}" style="color:#f97316;">
-              https://localhost:5173/user/chat/${chatId}
+              https://nexora-seven-rosy.vercel.app/user/user/chat/${chatId}
             </a>
           </p>
         </td>

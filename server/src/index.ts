@@ -40,7 +40,6 @@ app.use('/api/auth', authRouter);
 app.use('/api/chat', chatRouter);
 app.use('/api/pricing-plan', pricingPlanRouter);
 
-
 app.get('/', (_req, res) => {
   res.send('Hello from server!');
 });
