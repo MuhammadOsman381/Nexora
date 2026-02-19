@@ -21,11 +21,21 @@ export const getChat = async (req: Request, res: Response) => {
 
 export const deleteChat = async (req: Request, res: Response) => {
     const chatId = Number(req.params.id);
+    console.log(chatId);
     if (isNaN(chatId)) {
         sendResponse(res, 400, "Invalid chat id", null);
         return
     }
     try {
+        await queryHandler({
+            model: "message",
+            action: "deleteMany",
+            args: {
+                where: {
+                    chatId
+                }
+            }
+        })
         const chat = await queryHandler({
             model: "chat",
             action: "delete",

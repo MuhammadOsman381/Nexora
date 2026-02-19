@@ -2,6 +2,7 @@ import fs from "fs";
 import { pipeline } from "@xenova/transformers";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { Pinecone } from "@pinecone-database/pinecone";
+import { deleteEmbedding } from "./File.service";
 
 export let embedder: any;
 
@@ -76,6 +77,7 @@ export const vectorDB = async (nameSpace: string, filePath: string) => {
         await index.namespace(nameSpace).upsert(batch);
     }
     console.log(`Uploaded ${embeddings.length} embeddings to Pinecone ✅`);
+    await deleteEmbedding(`${nameSpace}.json`);
     return pc;
 };
 
