@@ -34,7 +34,7 @@ new Worker(
 
         const links = await getLinks(chat.url);
         const uniqueLinks = [...new Set(links)];
-        const limitedLinks = uniqueLinks.slice(0, 15);
+        const limitedLinks = uniqueLinks.slice(0, 5);
         await crawlerQueue.add(
             "crawlPages",
             { chat, user, links: limitedLinks },
