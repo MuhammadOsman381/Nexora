@@ -3,7 +3,7 @@ import { askQuestion } from '../services/Model.service';
 import { queryHandler } from '../services/Prisma.service';
 import { sendResponse } from '../services/Response.service';
 import { randomUUID } from 'crypto';
-import { trainingQueue } from "../services/BullMQ.service"
+import trainingQueue from "../services/BullMQ.service"
 
 export const createChat = async (req: Request, res: Response) => {
     const { title, url } = req.body;

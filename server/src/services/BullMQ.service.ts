@@ -4,30 +4,27 @@ import path from "path";
 import { getLinks, crawlPages } from "./WebCrawler.service";
 import { createEmbeddings, vectorDB } from "./Embeddings.service";
 import { sendModelReadyEmail } from "./NodeMailer.service";
+import { redisConnection } from "./Redis.service";
 
-const connection = {
-    url: process.env.REDIS_URL,
-};
-
-export const trainingQueue = new Queue("trainingQueue", { connection });
-export const getLinkQueue = new Queue("getLinkQueue", { connection });
-export const crawlerQueue = new Queue("crawlerQueue", { connection });
-export const embeddingQueue = new Queue("embeddingQueue", { connection });
-export const vectorDBQueue = new Queue("vectorDBQueue", { connection });
-export const sendMailQueue = new Queue("sendMailQueue", { connection });
+export default new Queue("trainingQueue", { connection: redisConnection as any });
+export const getLinkQueue = new Queue("getLinkQueue", { connection: redisConnection as any });
+export const crawlerQueue = new Queue("crawlerQueue", { connection: redisConnection as any });
+export const embeddingQueue = new Queue("embeddingQueue", { connection: redisConnection as any });
+export const vectorDBQueue = new Queue("vectorDBQueue", { connection: redisConnection as any });
+export const sendMailQueue = new Queue("sendMailQueue", { connection: redisConnection as any });
 
 new Worker(
     "trainingQueue",
     async (job) => {
         const { chat, user } = job.data;
-
+        console.log(chat, user)
         await getLinkQueue.add(
             "getLinks",
             { chat, user },
             { removeOnComplete: true, removeOnFail: true }
         );
     },
-    { connection }
+    { connection: redisConnection as any }
 );
 
 new Worker(
@@ -37,14 +34,14 @@ new Worker(
 
         const links = await getLinks(chat.url);
         const uniqueLinks = [...new Set(links)];
-
+        const limitedLinks = uniqueLinks.slice(0, 5);
         await crawlerQueue.add(
             "crawlPages",
-            { chat, user, links: uniqueLinks },
+            { chat, user, links: limitedLinks },
             { removeOnComplete: true, removeOnFail: true }
         );
     },
-    { connection }
+    { connection: redisConnection as any }
 );
 
 new Worker(
@@ -65,7 +62,7 @@ new Worker(
         );
     },
     {
-        connection,
+        connection: redisConnection as any,
         concurrency: 2,
     }
 );
@@ -84,7 +81,7 @@ new Worker(
         );
     },
     {
-        connection,
+        connection: redisConnection as any,
         concurrency: 1,
     }
 );
@@ -103,7 +100,7 @@ new Worker(
             { removeOnComplete: true, removeOnFail: true }
         );
     },
-    { connection }
+    { connection: redisConnection as any }
 );
 
 new Worker(
@@ -116,5 +113,5 @@ new Worker(
             chat.id.toString()
         );
     },
-    { connection }
+    { connection: redisConnection as any }
 );
